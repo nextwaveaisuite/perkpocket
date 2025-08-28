@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PerkPocket - Save & Earn</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>💰 PerkPocket</h1>
+                <p>Save & Earn with Every Purchase</p>
+            </div>
+        </header>
+
+        <!-- Security Verification Modal -->
+        <div id="securityModal" class="modal">
+            <div class="modal-content">
+                <h3>🔒 Security Verification</h3>
+                <p>Please verify you're human to continue</p>
+                <div class="h-captcha" data-sitekey="10000000-ffff-ffff-ffff-000000000001" data-callback="onCaptchaSuccess"></div>
+                <button id="skipVerification" class="skip-btn">Skip for Demo</button>
+            </div>
+        </div>
+
+        <main>
+            <div class="welcome-section">
+                <h2>Choose Your Market</h2>
+                <p>Select your country to see available offers</p>
+                
+                <div class="market-selection">
+                    <div class="market-card" data-market="au">
+                        <div class="flag">🇦🇺</div>
+                        <h3>Australia</h3>
+                        <p>AU</p>
+                    </div>
+                    <div class="market-card" data-market="uk">
+                        <div class="flag">🇬🇧</div>
+                        <h3>United Kingdom</h3>
+                        <p>UK</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="categories-section" style="display: none;">
+                <button class="back-btn" onclick="showMarketSelection()">← Back to Markets</button>
+                <h2 id="market-title">Categories</h2>
+                
+                <div class="categories-grid">
+                    <div class="category-card" data-category="meal-kits">
+                        <div class="category-icon">🍽️</div>
+                        <h3>Meal Kits</h3>
+                        <span class="offer-count">8 offers</span>
+                    </div>
+                    <div class="category-card" data-category="app-installs">
+                        <div class="category-icon">📱</div>
+                        <h3>App Installs</h3>
+                        <span class="offer-count">8 offers</span>
+                    </div>
+                    <div class="category-card" data-category="freebies">
+                        <div class="category-icon">🎁</div>
+                        <h3>Freebies</h3>
+                        <span class="offer-count">8 offers</span>
+                    </div>
+                    <div class="category-card" data-category="groceries">
+                        <div class="category-icon">⛽</div>
+                        <h3>Groceries & Fuel</h3>
+                        <span class="offer-count">8 offers</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="offers-section" style="display: none;">
+                <button class="back-btn" onclick="showCategories()">← Back to Categories</button>
+                <h2 id="offers-title">Offers</h2>
+                <div id="offers-container"></div>
+            </div>
+        </main>
+
+        <!-- Chatbot Widget -->
+        <div id="chatbot-widget" class="chatbot-widget">
+            <div id="chat-toggle" class="chat-toggle">
+                💬 Support
+            </div>
+            <div id="chat-window" class="chat-window">
+                <div class="chat-header">
+                    <h4>🤖 PerkPocket Support</h4>
+                    <button id="chat-close">×</button>
+                </div>
+                <div class="chat-messages" id="chat-messages">
+                    <div class="bot-message">
+                        <p>Hi! I'm here to help with any questions about PerkPocket. How can I assist you?</p>
+                        <div class="quick-actions">
+                            <button class="quick-btn" data-action="offers">🎯 View Offers</button>
+                            <button class="quick-btn" data-action="payments">💳 Payments</button>
+                            <button class="quick-btn" data-action="referrals">👥 Referrals</button>
+                            <button class="quick-btn" data-action="help">🔧 Help</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="chat-input" placeholder="Type your message...">
+                    <button id="chat-send">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="chatbot.js"></script>
+    <script src="security.js"></script>
+</body>
+</html>
+
