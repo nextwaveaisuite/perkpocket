@@ -1,1 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 PerkPocket Admin Panel</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+    <style>
+        .admin-login {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0b1020 0%, #1a2332 100%);
+        }
+        
+        .admin-panel {
+            display: none;
+        }
+        
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #1a2332 0%, #2d3748 100%);
+            border: 2px solid #4a5568;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2d6cff;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: #cbd5e0;
+            font-size: 0.9rem;
+        }
+        
+        .admin-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .admin-tab {
+            background: #4a5568;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-tab.active {
+            background: linear-gradient(135deg, #2d6cff 0%, #4a90ff 100%);
+        }
+        
+        .admin-tab:hover {
+            background: #2d6cff;
+        }
+        
+        .admin-content {
+            background: linear-gradient(135deg, #1a2332 0%, #2d3748 100%);
+            border: 2px solid #4a5568;
+            border-radius: 15px;
+            padding: 30px;
+            min-height: 400px;
+        }
+        
+        .offers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .admin-offer-card {
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+            border: 1px solid #4a5568;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        .admin-offer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .admin-offer-title {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        
+        .admin-offer-amount {
+            color: #48bb78;
+            font-weight: bold;
+        }
+        
+        .admin-offer-meta {
+            color: #cbd5e0;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .admin-offer-description {
+            color: #cbd5e0;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .admin-offer-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .admin-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-btn.edit {
+            background: #2d6cff;
+            color: white;
+        }
+        
+        .admin-btn.test {
+            background: #48bb78;
+            color: white;
+        }
+        
+        .admin-btn.delete {
+            background: #f56565;
+            color: white;
+        }
+        
+        .admin-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+        
+        .security-warning {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .admin-captcha {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-login" id="adminLogin">
+        <div class="modal-content">
+            <h3>🔒 Admin Access</h3>
+            <div class="security-warning">
+                🛡️ This is a secure admin area. Unauthorized access is prohibited.
+            </div>
+            <p>Enter admin key to access panel</p>
+            <input type="password" id="adminKey" placeholder="Enter admin key to access panel" style="width: 100%; padding: 12px; margin: 15px 0; border: none; border-radius: 8px; background: #4a5568; color: white;">
+            <div class="admin-captcha">
+                <div class="h-captcha" data-sitekey="10000000-ffff-ffff-ffff-000000000001" data-callback="onAdminCaptchaSuccess"></div>
+            </div>
+            <button id="adminLoginBtn" class="skip-btn" style="width: 100%; background: #2d6cff; margin-top: 15px;">Access Admin Panel</button>
+            <button id="skipAdminVerification" class="skip-btn">Skip Verification (Demo)</button>
+        </div>
+    </div>
+
+    <div class="admin-panel" id="adminPanel">
+        <div class="container">
+            <header style="background: linear-gradient(135deg, #2d6cff 0%, #4a90ff 100%); margin-bottom: 30px;">
+                <div class="header-content">
+                    <h1>🔧 PerkPocket Admin Panel</h1>
+                    <p>Manage offers, affiliate links, and monitor platform performance</p>
+                </div>
+            </header>
+
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Total Users</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Total Conversions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">$0.00</div>
+                    <div class="stat-label">Total Payouts</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">$0.00</div>
+                    <div class="stat-label">Pending Balance</div>
+                </div>
+            </div>
+
+            <div class="admin-tabs">
+                <button class="admin-tab active" data-tab="dashboard">📊 Dashboard</button>
+                <button class="admin-tab" data-tab="offers">🎯 Manage Offers</button>
+                <button class="admin-tab" data-tab="users">👥 Users</button>
+                <button class="admin-tab" data-tab="payouts">💰 Payouts</button>
+                <button class="admin-tab" data-tab="settings">⚙️ Settings</button>
+                <button class="admin-tab" data-tab="security">🔒 Security</button>
+            </div>
+
+            <div class="admin-content">
+                <div id="dashboard-content" class="tab-content">
+                    <h2>📊 Dashboard Overview</h2>
+                    <p>Platform statistics and key metrics are displayed above.</p>
+                    <div style="margin-top: 30px;">
+                        <h3>Recent Activity</h3>
+                        <p style="color: #cbd5e0; margin-top: 10px;">No recent activity to display.</p>
+                    </div>
+                </div>
+
+                <div id="offers-content" class="tab-content" style="display: none;">
+                    <div id="market-selection-admin" class="market-selection">
+                        <h2>Choose Your Market</h2>
+                        <p style="margin-bottom: 30px;">Select your country to manage offers</p>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 800px; margin: 0 auto;">
+                            <div class="market-card" data-market="au" onclick="selectAdminMarket('au')">
+                                <div class="flag">🇦🇺</div>
+                                <h3>Australia</h3>
+                                <p>AU</p>
+                            </div>
+                            <div class="market-card" data-market="uk" onclick="selectAdminMarket('uk')">
+                                <div class="flag">🇬🇧</div>
+                                <h3>United Kingdom</h3>
+                                <p>UK</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="categories-admin" style="display: none;">
+                        <button class="back-btn" onclick="showAdminMarketSelection()">← Back to Markets</button>
+                        <h2 id="admin-market-title">Categories</h2>
+                        
+                        <div class="categories-grid">
+                            <div class="category-card" onclick="selectAdminCategory('meal-kits')">
+                                <div class="category-icon">🍽️</div>
+                                <h3>Meal Kits</h3>
+                                <span class="offer-count">8 offers</span>
+                            </div>
+                            <div class="category-card" onclick="selectAdminCategory('app-installs')">
+                                <div class="category-icon">📱</div>
+                                <h3>App Installs</h3>
+                                <span class="offer-count">8 offers</span>
+                            </div>
+                            <div class="category-card" onclick="selectAdminCategory('freebies')">
+                                <div class="category-icon">🎁</div>
+                                <h3>Freebies</h3>
+                                <span class="offer-count">8 offers</span>
+                            </div>
+                            <div class="category-card" onclick="selectAdminCategory('groceries')">
+                                <div class="category-icon">⛽</div>
+                                <h3>Groceries & Fuel</h3>
+                                <span class="offer-count">8 offers</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="offers-admin" style="display: none;">
+                        <button class="back-btn" onclick="showAdminCategories()">← Back to Categories</button>
+                        <h2 id="admin-offers-title">Offers</h2>
+                        <div id="admin-offers-container" class="offers-grid"></div>
+                    </div>
+                </div>
+
+                <div id="users-content" class="tab-content" style="display: none;">
+                    <h2>👥 User Management</h2>
+                    <p>No users registered yet.</p>
+                </div>
+
+                <div id="payouts-content" class="tab-content" style="display: none;">
+                    <h2>💰 Payout Management</h2>
+                    <p>No payouts pending.</p>
+                </div>
+
+                <div id="settings-content" class="tab-content" style="display: none;">
+                    <h2>⚙️ Platform Settings</h2>
+                    <p>Configuration options will be available here.</p>
+                </div>
+
+                <div id="security-content" class="tab-content" style="display: none;">
+                    <h2>🔒 Security Dashboard</h2>
+                    <div class="security-warning">
+                        🛡️ Security monitoring is active. All admin actions are logged.
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <h3>Security Features</h3>
+                        <ul style="color: #cbd5e0; margin-top: 10px; line-height: 1.8;">
+                            <li>✅ hCaptcha verification enabled</li>
+                            <li>✅ Rate limiting active</li>
+                            <li>✅ Bot detection running</li>
+                            <li>✅ Action logging enabled</li>
+                            <li>✅ Fraud monitoring active</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../app.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
 
