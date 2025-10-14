@@ -1,13 +1,6 @@
-# PerkPocket — Flat Root + Isolated /admin
+# PerkPocket — AU/UK
 
-**Public site files at the repo root** (index.html + style.css + JS + JSON).
-**Admin console lives only in `/admin`** and uses the public theme without global resets.
-
-### Paths
-- `/` → `index.html` with `style.css` beside it (prevents “plain” look).
-- `/admin` → rewrites to `/admin/admin.html` (vercel.json).
-- Admin references `../style.css` and `../app.js` (assets stay at root).
-
-### Deploy
-- Push to GitHub; Vercel will serve statics from root automatically.
-- If you see unstyled UI, confirm `index.html` finds `style.css` at the same level.
+- Public UI at repo root (`index.html`, `style.css`, `app.js`, JSON assets)
+- Admin console in `/admin` (isolated; no global resets)
+- Legal pages included: `/privacy.html`, `/terms.html`, `/disclaimer.html`, `/contact.html`, `/about.html`
+- Vercel: static deploy, no build step
