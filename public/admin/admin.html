@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PerkPocket Admin</title>
+  <!-- Reuse public theme; no global resets here -->
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body class="admin-root">
+  <header class="site-header">
+    <div class="container row">
+      <div class="brand"><span class="logo-dot"></span><h1>PerkPocket Admin</h1></div>
+      <nav class="top-nav">
+        <a href="/">← Back to Site</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" style="padding:22px 0 40px">
+    <section class="card">
+      <h3>Offer Manager (read-only preview)</h3>
+      <p class="muted">This console is isolated from the public site. It previews offers from <code>../offers.json</code>.</p>
+      <div id="adminOffers" class="offer-grid" style="margin-top:16px"></div>
+    </section>
+  </main>
+
+  <script src="../app.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
