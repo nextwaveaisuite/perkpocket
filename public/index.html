@@ -4,8 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>PerkPocket — Save & Earn (AU/UK)</title>
+  <meta name="description" content="PerkPocket is a clean Save & Earn rewards app for AU/UK with curated affiliate offers and auto-tracking.">
   <link rel="stylesheet" href="style.css" />
   <link rel="preload" href="offers.json" as="fetch" crossorigin="anonymous" />
+  <link rel="preload" href="networks.json" as="fetch" crossorigin="anonymous" />
 </head>
 <body>
   <header class="site-header">
@@ -19,6 +21,7 @@
         <a href="#offers">Offers</a>
         <a href="#categories">Categories</a>
         <a href="#how-it-works">How it works</a>
+        <a href="#faqs">FAQs</a>
         <a href="/admin/admin.html" class="admin-link">Admin</a>
       </nav>
     </div>
@@ -27,10 +30,44 @@
   <section class="hero">
     <div class="container">
       <h2>Save money. Earn rewards.</h2>
-      <p>Curated, high-value affiliate offers with clean tracking — no spam, no clutter.</p>
+      <p>Curated AU/UK offers with clean tracking — no spam, no clutter.</p>
       <div class="hero-cta row">
         <input id="search" class="search" type="search" placeholder="Search offers (e.g. meal kits, broadband, fitness)">
         <button id="searchBtn" class="btn">Search</button>
+      </div>
+
+      <div class="filters row wrap">
+        <div class="select-wrap">
+          <label for="filterRegion">Region</label>
+          <select id="filterRegion">
+            <option value="">All</option>
+            <option value="AU">AU</option>
+            <option value="UK">UK</option>
+          </select>
+        </div>
+        <div class="select-wrap">
+          <label for="filterCategory">Category</label>
+          <select id="filterCategory">
+            <option value="">All</option>
+            <option>Meal Kits</option>
+            <option>Groceries</option>
+            <option>Finance</option>
+            <option>Telco</option>
+            <option>Fitness</option>
+            <option>Entertainment</option>
+            <option>Utilities</option>
+          </select>
+        </div>
+        <div class="select-wrap">
+          <label for="sortBy">Sort</label>
+          <select id="sortBy">
+            <option value="featured">Featured</option>
+            <option value="alpha">A → Z</option>
+            <option value="category">Category</option>
+            <option value="region">Region</option>
+          </select>
+        </div>
+        <button id="clearFilters" class="btn outline">Clear</button>
       </div>
     </div>
   </section>
@@ -41,9 +78,23 @@
     <div class="cat-card" data-cat="Finance">💳 Finance</div>
     <div class="cat-card" data-cat="Telco">📶 Telco</div>
     <div class="cat-card" data-cat="Fitness">🏃 Fitness</div>
+    <div class="cat-card" data-cat="Entertainment">🎬 Entertainment</div>
+    <div class="cat-card" data-cat="Utilities">⚡ Utilities</div>
+  </section>
+
+  <section class="container stats">
+    <div class="stat card"><div class="stat-num" id="statTotal">0</div><div class="stat-label">Total Offers</div></div>
+    <div class="stat card"><div class="stat-num" id="statAU">0</div><div class="stat-label">AU Offers</div></div>
+    <div class="stat card"><div class="stat-num" id="statUK">0</div><div class="stat-label">UK Offers</div></div>
   </section>
 
   <main id="offers" class="container offer-grid" aria-live="polite"></main>
+
+  <nav id="pager" class="container pager row center hide">
+    <button id="prevPage" class="btn outline">&larr; Prev</button>
+    <div id="pageInfo" class="muted"></div>
+    <button id="nextPage" class="btn outline">Next &rarr;</button>
+  </nav>
 
   <section id="how-it-works" class="hiw">
     <div class="container grid-2">
@@ -62,18 +113,47 @@
     </div>
   </section>
 
+  <section id="faqs" class="container faqs">
+    <h3>FAQs</h3>
+    <details class="card">
+      <summary>Do I pay more using an affiliate link?</summary>
+      <p>No. Prices are the same. We may receive a referral fee that keeps PerkPocket free.</p>
+    </details>
+    <details class="card">
+      <summary>Which regions are supported?</summary>
+      <p>Australia (AU) and the United Kingdom (UK).</p>
+    </details>
+    <details class="card">
+      <summary>Is my data tracked here?</summary>
+      <p>We don’t collect personal data on this static site. See our <a href="/privacy.html">Privacy Policy</a>.</p>
+    </details>
+  </section>
+
   <footer class="site-footer">
     <div class="container row">
       <div>© <span id="yr"></span> PerkPocket</div>
       <div class="links">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-        <a href="#">Disclaimer</a>
-        <a href="#">Contact</a>
-        <a href="#">About</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/disclaimer.html">Disclaimer</a>
+        <a href="/contact.html">Contact</a>
+        <a href="/about.html">About</a>
       </div>
     </div>
   </footer>
+
+  <div id="offerModal" class="modal hide" role="dialog" aria-modal="true" aria-labelledby="mdlTitle">
+    <div class="modal-card">
+      <button class="close" id="mdlClose" aria-label="Close">&times;</button>
+      <h4 id="mdlTitle">Offer</h4>
+      <p id="mdlBlurb" class="muted"></p>
+      <div id="mdlMeta" class="meta"></div>
+      <div class="actions">
+        <a id="mdlPrimary" class="link" target="_blank" rel="nofollow noopener">Get Offer</a>
+        <a id="mdlInfo" class="link secondary" target="_blank">Info</a>
+      </div>
+    </div>
+  </div>
 
   <script src="app.js"></script>
   <script src="offer-wire.js"></script>
