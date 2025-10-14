@@ -1,12 +1,18 @@
 {
-  "awin":       { "name": "Awin",               "param": "clickref" },
-  "cj":         { "name": "CJ Affiliate",       "param": "sid" },
-  "impact":     { "name": "Impact",             "param": "subId" },
-  "shareasale": { "name": "ShareASale",         "param": "afftrack" },
-  "partnerize": { "name": "Partnerize/Rakuten", "param": "subid" },
-
-  "adgem":      { "name": "AdGem (Offerwall)",  "param": "sub_id" },
-  "fyber":      { "name": "Fyber (DT)",         "param": "sub_id" },
-  "tapjoy":     { "name": "Tapjoy",             "param": "sub_id" },
-  "ironsource": { "name": "ironSource",         "param": "aff_sub" }
+  "awin": {
+    "params": { "ued": "true" },
+    "subParam": "clickref"
+  },
+  "cj": {
+    "params": { "cjevent": "pp_default" },
+    "subParam": "sid"
+  },
+  "impact": {
+    "params": { "irclickid": "pp_default" },
+    "subParam": "subId"
+  },
+  "shareasale": {
+    "params": { "afftrack": "pp_default" },
+    "subParam": "afftrack"
+  }
 }
