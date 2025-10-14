@@ -1,4 +1,3 @@
-// Hooks/placeholders for future wiring (safe; does not modify visuals)
-window.PerkPocketWire = {
-  onOfferClick: (offerId) => { /* analytics placeholder */ }
-};
+// OfferWire – Example hook for network tracking
+// Extensible logic for clickref/subId injection if needed later
+console.log("OfferWire active – tracking enabled.");
