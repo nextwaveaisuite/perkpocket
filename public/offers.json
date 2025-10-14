@@ -1,32 +1,40 @@
 {
   "AU": {
     "Meal Kits": [
-      { "name": "HelloFresh AU", "url": "https://example.com/hellofresh-au", "payout": "$25", "status": "Active" },
-      { "name": "Marley Spoon AU", "url": "https://example.com/marley-au", "payout": "$20", "status": "Active" }
+      {
+        "name": "HelloFresh AU",
+        "baseUrl": "https://example.awin.com/track/hellofresh-au",
+        "network": "awin",
+        "payout": "$25",
+        "status": "Active"
+      },
+      {
+        "name": "Lite n' Easy AU",
+        "baseUrl": "https://example.impact.com/track/liteneasy-au",
+        "network": "impact",
+        "payout": "$20–$35",
+        "status": "Active"
+      }
     ],
     "App Installs": [
-      { "name": "AdGem Offerwall", "url": "https://example.com/adgem", "payout": "$2–$15", "status": "Active" },
-      { "name": "Fyber Offerwall", "url": "https://example.com/fyber", "payout": "$2–$15", "status": "Active" }
-    ],
-    "Freebies": [
-      { "name": "PrizeRebel", "url": "https://example.com/prizerebel", "payout": "$2–$10", "status": "Active" }
-    ],
-    "Groceries & Fuel": [
-      { "name": "Woolworths Gift Cards", "url": "https://example.com/woolworths", "payout": "Varies", "status": "Active" }
+      {
+        "name": "AdGem Offerwall",
+        "baseUrl": "https://wall.adgem.com/your-pub-id",
+        "network": "adgem",
+        "payout": "$2–$15",
+        "status": "Active"
+      }
     ]
   },
   "UK": {
     "Meal Kits": [
-      { "name": "Gousto UK", "url": "https://example.com/gousto-uk", "payout": "£15–£25", "status": "Active" }
-    ],
-    "App Installs": [
-      { "name": "Tapjoy", "url": "https://example.com/tapjoy", "payout": "£2–£12", "status": "Active" }
-    ],
-    "Freebies": [
-      { "name": "YouGov", "url": "https://example.com/yougov", "payout": "Points", "status": "Active" }
-    ],
-    "Groceries & Fuel": [
-      { "name": "Tesco Offers", "url": "https://example.com/tesco", "payout": "Varies", "status": "Active" }
+      {
+        "name": "Gousto UK",
+        "baseUrl": "https://example.cj.com/track/gousto-uk",
+        "network": "cj",
+        "payout": "£15–£25",
+        "status": "Active"
+      }
     ]
   }
 }
