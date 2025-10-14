@@ -1,30 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PerkPocket Admin</title>
-  <link rel="stylesheet" href="../style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PerkPocket Admin Console</title>
+  <link rel="stylesheet" href="../style.css" />
+  <script src="admin.js" defer></script>
 </head>
 <body class="admin-root">
-  <header class="site-header">
-    <div class="container row">
-      <div class="brand"><span class="logo-dot"></span><h1>PerkPocket Admin</h1></div>
-      <nav class="top-nav">
-        <a href="/">← Back to Site</a>
-      </nav>
-    </div>
+  <header class="main-header">
+    <h1>🛠️ PerkPocket Admin Panel</h1>
+    <p>Manage offers and affiliate networks here.</p>
   </header>
 
-  <main class="container" style="padding:22px 0 40px">
-    <section class="card">
-      <h3>Offer Manager (read-only preview)</h3>
-      <p class="muted">This console is isolated from the public site. It previews offers from <code>../offers.json</code>.</p>
-      <div id="adminSummary" class="meta" style="margin-bottom:10px"></div>
-      <div id="adminOffers" class="offer-grid" style="margin-top:16px"></div>
-    </section>
+  <main class="offers-container">
+    <div id="admin-offers" class="offers-grid"></div>
   </main>
 
-  <script src="admin.js"></script>
+  <footer class="footer">
+    <p>© 2025 PerkPocket Admin</p>
+  </footer>
 </body>
 </html>
