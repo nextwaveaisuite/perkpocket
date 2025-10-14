@@ -23,6 +23,11 @@
       box-shadow: 0 0 20px rgba(0,0,0,0.4);
       width: 320px;
       text-align: center;
+      animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     input[type="password"] {
       width: 100%;
@@ -44,6 +49,9 @@
       transition: background 0.2s ease;
     }
     button:hover { background: #2ea043; }
+    h2 {
+      margin-bottom: 15px;
+    }
   </style>
 </head>
 <body>
@@ -51,16 +59,16 @@
 
   <script>
     /* === SIMPLE ADMIN LOGIN (STATIC SITE SAFE) === */
-    const ADMIN_PASSWORD = "NextWave-PerkAdmin2025";  // 👈 change this before deploying!
+    const ADMIN_PASSWORD = "1Church@Miles_St_MountIsa";  // ✅ Your pre-filled password
 
-    // If already logged in, go straight to dashboard
+    // If already logged in, show dashboard
     if (sessionStorage.getItem("perkAdminAuth") === "granted") {
       showAdminPanel();
     } else {
       showLogin();
     }
 
-    // --- UI: login box ---
+    // --- Login Screen ---
     function showLogin() {
       document.getElementById("app").innerHTML = `
         <div class="login-box">
@@ -71,7 +79,7 @@
       `;
     }
 
-    // --- Validate password ---
+    // --- Check Password ---
     function checkLogin() {
       const input = document.getElementById("pw").value.trim();
       if (input === ADMIN_PASSWORD) {
@@ -82,18 +90,18 @@
       }
     }
 
-    // --- After login ---
+    // --- Admin Dashboard ---
     function showAdminPanel() {
       document.getElementById("app").innerHTML = `
         <div class="admin-panel">
           <h2>Welcome, Admin ✅</h2>
-          <p>You are now logged in to manage offers, balances, and payouts.</p>
+          <p>You are now logged in to manage offers, affiliate networks, and payouts.</p>
           <button onclick="logout()">Logout</button>
         </div>
       `;
     }
 
-    // --- Logout handler ---
+    // --- Logout ---
     function logout() {
       sessionStorage.removeItem("perkAdminAuth");
       location.reload();
