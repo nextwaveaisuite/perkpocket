@@ -1,35 +1,27 @@
-// Read-only admin preview (no collisions with public UI)
-(async () => {
+// ==============================
+//  PerkPocket Admin Management
+// ==============================
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const adminOffers = document.getElementById("admin-offers");
+
   try {
-    const res = await fetch("../offers.json");
-    if (!res.ok) throw new Error("offers.json not found");
-    const offers = await res.json();
+    const response = await fetch("../offers.json");
+    const offers = await response.json();
 
-    // summary
-    const au = offers.filter(o=>o.region==="AU").length;
-    const uk = offers.filter(o=>o.region==="UK").length;
-    const cats = [...new Set(offers.map(o=>o.category).filter(Boolean))].sort();
-    document.getElementById("adminSummary").innerHTML =
-      `<span class="pill">Total: ${offers.length}</span>
-       <span class="pill">AU: ${au}</span>
-       <span class="pill">UK: ${uk}</span>
-       <span class="pill">Categories: ${cats.join(", ")}</span>`;
-
-    // grid
-    const el = document.getElementById("adminOffers");
-    el.innerHTML = offers.map(o => `
-      <article class="card">
-        <span class="brand-chip">${o.network}</span>
-        <h4>${o.title}</h4>
-        <p>${o.blurb}</p>
-        <div class="meta">
-          ${o.category?`<span class="pill">${o.category}</span>`:""}
-          ${o.region?`<span class="pill">${o.region}</span>`:""}
-        </div>
-      </article>
-    `).join("");
-  } catch(err){
-    const el = document.getElementById("adminOffers");
-    el.innerHTML = `<div class="card"><h4>Admin Load Error</h4><p>${err?.message||err}</p></div>`;
+    adminOffers.innerHTML = "";
+    offers.forEach(offer => {
+      const card = document.createElement("div");
+      card.classList.add("offer-card");
+      card.innerHTML = `
+        <h3>${offer.name}</h3>
+        <p>${offer.description}</p>
+        <a href="${offer.link}" target="_blank">Test Link</a>
+      `;
+      adminOffers.appendChild(card);
+    });
+  } catch (error) {
+    adminOffers.innerHTML = `<p>⚠️ Failed to load offers.json</p>`;
+    console.error(error);
   }
-})();
+});
