@@ -44,5 +44,104 @@
     "perk": "Multi-box discount",
     "fee": "—",
     "subId": "pp-uk-mealkit"
+  },
+  {
+    "id": "britbox-uk",
+    "title": "BritBox UK — Free Trial",
+    "blurb": "Stream the best of British TV and films.",
+    "url": "https://www.britbox.co.uk/",
+    "network": "awin",
+    "category": "Entertainment",
+    "region": "UK",
+    "perk": "Free trial",
+    "fee": "—"
+  },
+  {
+    "id": "now-tv-uk",
+    "title": "NOW TV UK — Pass Deals",
+    "blurb": "Pick passes for Sports, Cinema, and Entertainment.",
+    "url": "https://www.nowtv.com/",
+    "network": "cj",
+    "category": "Entertainment",
+    "region": "UK",
+    "perk": "Intro pricing",
+    "fee": "—"
+  },
+  {
+    "id": "kogan-au",
+    "title": "Kogan AU — Utilities & Deals",
+    "blurb": "Switch energy or internet and save.",
+    "url": "https://www.kogan.com/au/",
+    "network": "impact",
+    "category": "Utilities",
+    "region": "AU",
+    "perk": "Bundle discounts",
+    "fee": "—"
+  },
+  {
+    "id": "aldi-mobile-au",
+    "title": "ALDI Mobile — Prepaid Plans",
+    "blurb": "Reliable prepaid, great value on Telstra network.",
+    "url": "https://www.aldimobile.com.au/",
+    "network": "awin",
+    "category": "Telco",
+    "region": "AU",
+    "perk": "Intro credit",
+    "fee": "—"
+  },
+  {
+    "id": "giffgaff-uk",
+    "title": "giffgaff UK — SIM Offers",
+    "blurb": "Flexible goodybags on O2 network.",
+    "url": "https://www.giffgaff.com/",
+    "network": "shareasale",
+    "category": "Telco",
+    "region": "UK",
+    "perk": "Bonus credit",
+    "fee": "—"
+  },
+  {
+    "id": "coles-au",
+    "title": "Coles Online — Grocery Codes",
+    "blurb": "Weekly specials and delivery deals.",
+    "url": "https://www.coles.com.au/",
+    "network": "cj",
+    "category": "Groceries",
+    "region": "AU",
+    "perk": "Weekly specials",
+    "fee": "—"
+  },
+  {
+    "id": "tesco-uk",
+    "title": "Tesco UK — Online Grocery",
+    "blurb": "Clubcard prices and fresh food delivery.",
+    "url": "https://www.tesco.com/",
+    "network": "awin",
+    "category": "Groceries",
+    "region": "UK",
+    "perk": "Clubcard savings",
+    "fee": "—"
+  },
+  {
+    "id": "rebel-au",
+    "title": "rebel AU — Sports & Fitness",
+    "blurb": "Gear up with seasonal discounts.",
+    "url": "https://www.rebelsport.com.au/",
+    "network": "impact",
+    "category": "Fitness",
+    "region": "AU",
+    "perk": "Seasonal sale",
+    "fee": "—"
+  },
+  {
+    "id": "myprotein-uk",
+    "title": "MyProtein UK — Supplements",
+    "blurb": "Protein powders, snacks, and apparel.",
+    "url": "https://www.myprotein.com/",
+    "network": "cj",
+    "category": "Fitness",
+    "region": "UK",
+    "perk": "Stackable codes",
+    "fee": "—"
   }
 ]
