@@ -1,4 +1,4 @@
-// Optional hooks/placeholders for future wiring (does not modify visuals)
-window.PerpPocketWire = {
+// Hooks/placeholders for future wiring (safe; does not modify visuals)
+window.PerkPocketWire = {
   onOfferClick: (offerId) => { /* analytics placeholder */ }
 };
