@@ -1,114 +1,95 @@
-// Shared data
-let OFFERS = {};      // loaded from /offers.json
-let NETWORKS = {};    // loaded from /networks.json
-let CURRENT_MARKET = 'AU';
-let CURRENT_CATEGORY = null;
+// PerkPocket public app — load offers and append correct tracking
+(() => {
+  const $ = (sel, el=document) => el.querySelector(sel);
+  const $$ = (sel, el=document) => Array.from(el.querySelectorAll(sel));
+  const offersEl = $("#offers");
+  const searchEl = $("#search");
+  const yrEl = $("#yr");
 
-// Load networks & offers, then render
-(async function init() {
-  try {
+  if (yrEl) yrEl.textContent = new Date().getFullYear();
+
+  let networks = {};
+  let offers = [];
+
+  async function loadData() {
     const [netRes, offRes] = await Promise.all([
-      fetch('/networks.json', { cache: 'no-cache' }),
-      fetch('/offers.json',   { cache: 'no-cache' })
+      fetch("networks.json"),
+      fetch("offers.json")
     ]);
-    NETWORKS = await netRes.json();
-    OFFERS   = await offRes.json();
+    networks = await netRes.json();
+    offers = await offRes.json();
+    render(offers);
+  }
 
-    // Default selections
-    const markets = Object.keys(OFFERS);
-    if (markets.length) CURRENT_MARKET = markets.includes('AU') ? 'AU' : markets[0];
-    const cats = Object.keys(OFFERS[CURRENT_MARKET] || {});
-    CURRENT_CATEGORY = cats[0] || null;
+  function buildTrackedUrl(offer) {
+    const net = networks[offer.network];
+    if (!net) return offer.url;
 
-    renderMarketTabs();
-    renderCategoryTabs();
-    renderOffers();
-  } catch (e) {
-    console.error('Init failed:', e);
-    document.getElementById('offersGrid').innerHTML = `<div class="card">No offers available.</div>`;
+    const url = new URL(offer.url);
+    // Append required tracking params, preserving existing ones
+    Object.entries(net.params || {}).forEach(([k,v]) => {
+      if (!url.searchParams.has(k)) url.searchParams.set(k, v);
+    });
+
+    // Optional subId (clickref, etc.) — derive from offer or fallback
+    if (net.subParam) {
+      const subVal = offer.subId || "perkpocket";
+      if (!url.searchParams.has(net.subParam)) url.searchParams.set(net.subParam, subVal);
+    }
+    return url.toString();
+  }
+
+  function card(offer) {
+    const tracked = buildTrackedUrl(offer);
+    return `
+      <article class="card">
+        <span class="brand-chip">${offer.network}</span>
+        <h4>${offer.title}</h4>
+        <p>${offer.blurb}</p>
+        <div class="meta">
+          ${offer.category ? `<span class="pill">${offer.category}</span>` : ""}
+          ${offer.region ? `<span class="pill">${offer.region}</span>` : ""}
+          ${offer.perk ? `<span class="pill">${offer.perk}</span>` : ""}
+          ${offer.fee ? `<span class="pill">Fee ${offer.fee}</span>` : ""}
+        </div>
+        <div class="actions">
+          <a class="link" href="${tracked}" target="_blank" rel="nofollow noopener">Get Offer</a>
+          ${offer.info ? `<a class="link secondary" href="${offer.info}" target="_blank">Info</a>` : ""}
+        </div>
+      </article>
+    `;
+  }
+
+  function render(list) {
+    if (!list?.length) {
+      offersEl.innerHTML = `<div class="card"><h4>No offers found</h4><p>Try another keyword or category.</p></div>`;
+      return;
+    }
+    offersEl.innerHTML = list.map(card).join("");
+  }
+
+  function byCategory(cat) {
+    render(offers.filter(o => (o.category||"").toLowerCase().includes(cat.toLowerCase())));
+  }
+
+  function onSearch() {
+    const q = (searchEl?.value || "").trim().toLowerCase();
+    if (!q) { render(offers); return; }
+    const list = offers.filter(o => {
+      return [o.title,o.blurb,o.category,o.region,o.perk]
+        .filter(Boolean)
+        .some(v => v.toLowerCase().includes(q));
+    });
+    render(list);
+  }
+
+  $("#searchBtn")?.addEventListener("click", onSearch);
+  searchEl?.addEventListener("keydown", (e)=>{ if(e.key==="Enter") onSearch(); });
+  $$(".cat-card").forEach(el => el.addEventListener("click", () => byCategory(el.dataset.cat)));
+
+  if (offersEl) {
+    loadData().catch(err => {
+      offersEl.innerHTML = `<div class="card"><h4>Load error</h4><p>${err?.message||err}</p></div>`;
+    });
   }
 })();
-
-function renderMarketTabs() {
-  const el = document.getElementById('marketTabs');
-  const markets = Object.keys(OFFERS || {});
-  el.innerHTML = markets.map(m => `
-    <button class="pill ${m===CURRENT_MARKET?'active':''}" onclick="setMarket('${m}')">${m}</button>
-  `).join('') || '<span>No markets</span>';
-}
-
-function setMarket(m) {
-  CURRENT_MARKET = m;
-  const cats = Object.keys(OFFERS[CURRENT_MARKET] || {});
-  CURRENT_CATEGORY = cats[0] || null;
-  renderMarketTabs();
-  renderCategoryTabs();
-  renderOffers();
-}
-
-function renderCategoryTabs() {
-  const el = document.getElementById('categoryTabs');
-  const cats = Object.keys(OFFERS[CURRENT_MARKET] || {});
-  el.innerHTML = cats.map(c => `
-    <button class="pill ${c===CURRENT_CATEGORY?'active':''}" onclick="setCategory('${c.replace(/'/g,"\\'")}')">${c}</button>
-  `).join('') || '<span>No categories</span>';
-}
-
-function setCategory(c) {
-  CURRENT_CATEGORY = c;
-  renderCategoryTabs();
-  renderOffers();
-}
-
-function renderOffers() {
-  const grid = document.getElementById('offersGrid');
-  const list = (OFFERS[CURRENT_MARKET] && OFFERS[CURRENT_MARKET][CURRENT_CATEGORY]) || [];
-  if (!CURRENT_CATEGORY) {
-    grid.innerHTML = `<div class="card">Select a category.</div>`;
-    return;
-  }
-  if (!list.length) {
-    grid.innerHTML = `<div class="card">No offers in <b>${CURRENT_CATEGORY}</b> yet.</div>`;
-    return;
-  }
-  grid.innerHTML = list.map(o => `
-    <article class="card">
-      <h3 style="margin:0 0 6px 0;">${escapeHtml(o.name)}</h3>
-      <div style="font-size:12px;opacity:.8;margin-bottom:8px;">
-        ${o.payout ? `Payout: ${escapeHtml(o.payout)} · ` : ''}${o.status || 'Active'}
-      </div>
-      <button class="btn" onclick='onOfferClick(${JSON.stringify(o).replace(/'/g,"&#39;")})'>Get Deal</button>
-    </article>
-  `).join('');
-}
-
-// Tracking helpers
-function getUserRef() {
-  let id = localStorage.getItem('pp_user_ref');
-  if (!id) {
-    id = 'u_' + Math.random().toString(36).slice(2, 10);
-    localStorage.setItem('pp_user_ref', id);
-  }
-  return id;
-}
-
-function buildTrackedUrl(baseUrl, networkKey, userRef) {
-  const net = NETWORKS[networkKey];
-  const paramName = net?.param || 'ref';
-  const glue = baseUrl.includes('?') ? '&' : '?';
-  return `${baseUrl}${glue}${encodeURIComponent(paramName)}=${encodeURIComponent(userRef)}`;
-}
-
-function onOfferClick(offer) {
-  const baseUrl = offer.baseUrl || offer.url || '';
-  if (!baseUrl) return;
-  const userRef = getUserRef();
-  const url = buildTrackedUrl(baseUrl, offer.network, userRef);
-  // TODO: optional analytics ping here
-  window.open(url, '_blank');
-}
-
-// utils
-function escapeHtml(s) {
-  return String(s ?? '').replace(/[&<>"']/g, r => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[r]));
-}
