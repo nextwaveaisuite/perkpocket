@@ -1,40 +1,48 @@
-{
-  "AU": {
-    "Meal Kits": [
-      {
-        "name": "HelloFresh AU",
-        "baseUrl": "https://example.awin.com/track/hellofresh-au",
-        "network": "awin",
-        "payout": "$25",
-        "status": "Active"
-      },
-      {
-        "name": "Lite n' Easy AU",
-        "baseUrl": "https://example.impact.com/track/liteneasy-au",
-        "network": "impact",
-        "payout": "$20–$35",
-        "status": "Active"
-      }
-    ],
-    "App Installs": [
-      {
-        "name": "AdGem Offerwall",
-        "baseUrl": "https://wall.adgem.com/your-pub-id",
-        "network": "adgem",
-        "payout": "$2–$15",
-        "status": "Active"
-      }
-    ]
+[
+  {
+    "id": "hellofresh-au",
+    "title": "HelloFresh AU — Intro Offer",
+    "blurb": "Fresh meal kits delivered. Discount on first boxes.",
+    "url": "https://www.hellofresh.com.au/plans",
+    "network": "awin",
+    "category": "Meal Kits",
+    "region": "AU",
+    "perk": "New customer deal",
+    "fee": "—",
+    "subId": "pp-au-mealkit"
   },
-  "UK": {
-    "Meal Kits": [
-      {
-        "name": "Gousto UK",
-        "baseUrl": "https://example.cj.com/track/gousto-uk",
-        "network": "cj",
-        "payout": "£15–£25",
-        "status": "Active"
-      }
-    ]
+  {
+    "id": "marleyspoon-au",
+    "title": "Marley Spoon AU — Promo",
+    "blurb": "Chef-designed recipes. Save on your first 3 boxes.",
+    "url": "https://marleyspoon.com.au/",
+    "network": "impact",
+    "category": "Meal Kits",
+    "region": "AU",
+    "perk": "Stackable codes",
+    "fee": "—"
+  },
+  {
+    "id": "lite-n-easy-au",
+    "title": "Lite n’ Easy — Healthy prepared meals",
+    "blurb": "Balanced meals and plans for busy weeks.",
+    "url": "https://www.liteneasy.com.au/",
+    "network": "cj",
+    "category": "Groceries",
+    "region": "AU",
+    "perk": "Seasonal promos",
+    "fee": "—"
+  },
+  {
+    "id": "hellofresh-uk",
+    "title": "HelloFresh UK — New customer deal",
+    "blurb": "Flexible plans with tasty recipes each week.",
+    "url": "https://www.hellofresh.co.uk/plans",
+    "network": "shareasale",
+    "category": "Meal Kits",
+    "region": "UK",
+    "perk": "Multi-box discount",
+    "fee": "—",
+    "subId": "pp-uk-mealkit"
   }
-}
+]
