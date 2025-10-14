@@ -21,7 +21,7 @@
       padding: 2rem;
       border-radius: 12px;
       box-shadow: 0 0 20px rgba(0,0,0,0.4);
-      width: 320px;
+      width: 350px;
       text-align: center;
       animation: fadeIn 0.5s ease;
     }
@@ -47,21 +47,38 @@
       font-weight: 600;
       cursor: pointer;
       transition: background 0.2s ease;
+      margin: 5px;
     }
     button:hover { background: #2ea043; }
-    h2 {
-      margin-bottom: 15px;
+    .tabs button {
+      background: #21262d;
     }
+    .tabs button.active {
+      background: #238636;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      color: #e6edf3;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #30363d;
+      padding: 8px;
+      text-align: left;
+    }
+    th { background: #21262d; }
+    a { color: #58a6ff; text-decoration: none; }
   </style>
 </head>
 <body>
   <div id="app"></div>
 
   <script>
-    /* === SIMPLE ADMIN LOGIN (STATIC SITE SAFE) === */
-    const ADMIN_PASSWORD = "1Church@Miles_St_MountIsa";  // ✅ Your pre-filled password
+    // === ADMIN PANEL WITH LOGIN ===
+    const ADMIN_PASSWORD = "1Church@Miles_St_MountIsa";  // ✅ pre-filled password
 
-    // If already logged in, show dashboard
+    // Check if logged in
     if (sessionStorage.getItem("perkAdminAuth") === "granted") {
       showAdminPanel();
     } else {
@@ -79,7 +96,7 @@
       `;
     }
 
-    // --- Check Password ---
+    // --- Validate password ---
     function checkLogin() {
       const input = document.getElementById("pw").value.trim();
       if (input === ADMIN_PASSWORD) {
@@ -90,15 +107,67 @@
       }
     }
 
-    // --- Admin Dashboard ---
+    // --- Admin Panel Layout ---
     function showAdminPanel() {
       document.getElementById("app").innerHTML = `
         <div class="admin-panel">
-          <h2>Welcome, Admin ✅</h2>
-          <p>You are now logged in to manage offers, affiliate networks, and payouts.</p>
-          <button onclick="logout()">Logout</button>
+          <h2>PerkPocket Admin Console ✅</h2>
+          <div class="tabs">
+            <button class="tab-btn" onclick="showSection('offers')">Offers</button>
+            <button class="tab-btn" onclick="showSection('networks')">Affiliate Networks</button>
+            <button class="tab-btn" onclick="showSection('payouts')">Payouts</button>
+            <button onclick="logout()">Logout</button>
+          </div>
+          <div id="sectionContent" style="margin-top: 20px;"></div>
         </div>
       `;
+      showSection('offers');
+    }
+
+    // --- Section switcher ---
+    function showSection(name) {
+      const content = document.getElementById("sectionContent");
+      const buttons = document.querySelectorAll(".tab-btn");
+      buttons.forEach(btn => btn.classList.remove("active"));
+      if (name === "offers") buttons[0].classList.add("active");
+      if (name === "networks") buttons[1].classList.add("active");
+      if (name === "payouts") buttons[2].classList.add("active");
+
+      if (name === 'offers') {
+        content.innerHTML = `
+          <h3>🛍 Manage Offers</h3>
+          <table>
+            <tr><th>Offer</th><th>URL</th><th>Status</th></tr>
+            <tr><td>HelloFresh</td><td><a href="https://example.com/hellofresh">example.com/hellofresh</a></td><td>Active</td></tr>
+            <tr><td>Marley Spoon</td><td><a href="https://example.com/marley">example.com/marley</a></td><td>Pending</td></tr>
+          </table>
+          <button>➕ Add Offer</button>
+        `;
+      }
+
+      if (name === 'networks') {
+        content.innerHTML = `
+          <h3>🌐 Affiliate Networks</h3>
+          <ul style="text-align:left; line-height:1.8;">
+            <li><b>Meal Kits:</b> HelloFresh, Marley Spoon, Gousto</li>
+            <li><b>App Installs:</b> AdGem, Fyber, TapJoy, ironSource</li>
+            <li><b>Freebies & Surveys:</b> Swagbucks, PrizeRebel, YouGov</li>
+            <li><b>Groceries & Fuel:</b> Woolworths, Tesco, BP, Shell</li>
+          </ul>
+          <p style="margin-top:10px;">Manage and update your affiliate links for each network.</p>
+        `;
+      }
+
+      if (name === 'payouts') {
+        content.innerHTML = `
+          <h3>💰 Payout Tracker</h3>
+          <table>
+            <tr><th>Date</th><th>Network</th><th>Amount</th><th>Status</th></tr>
+            <tr><td>Oct 10, 2025</td><td>HelloFresh</td><td>$120</td><td>Paid</td></tr>
+            <tr><td>Oct 12, 2025</td><td>AdGem</td><td>$75</td><td>Pending</td></tr>
+          </table>
+        `;
+      }
     }
 
     // --- Logout ---
