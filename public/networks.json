@@ -1,18 +1,18 @@
-{
-  "awin": {
-    "params": { "ued": "true" },
+[
+  {
+    "network": "Awin",
     "subParam": "clickref"
   },
-  "cj": {
-    "params": { "cjevent": "pp_default" },
-    "subParam": "sid"
+  {
+    "network": "CJ",
+    "subParam": "SID"
   },
-  "impact": {
-    "params": { "irclickid": "pp_default" },
+  {
+    "network": "Impact",
     "subParam": "subId"
   },
-  "shareasale": {
-    "params": { "afftrack": "pp_default" },
+  {
+    "network": "ShareASale",
     "subParam": "afftrack"
   }
-}
+]
