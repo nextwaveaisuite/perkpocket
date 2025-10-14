@@ -1,6 +1,7 @@
-# PerkPocket — AU/UK
+# PerkPocket AU/UK – Save & Earn Rewards
 
-- Public UI at repo root (`index.html`, `style.css`, `app.js`, JSON assets)
-- Admin console in `/admin` (isolated; no global resets)
-- Legal pages included: `/privacy.html`, `/terms.html`, `/disclaimer.html`, `/contact.html`, `/about.html`
-- Vercel: static deploy, no build step
+### Overview
+PerkPocket is a **Save & Earn rewards platform** for Australian and UK users.  
+Visitors confirm they are human via hCaptcha, choose **AU 🇦🇺 or UK 🇬🇧**, then view affiliate offers.
+
+### Structure
