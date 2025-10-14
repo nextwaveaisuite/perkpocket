@@ -1,8 +1,11 @@
 {
-  "version": 2,
-  "routes": [
-    { "src": "/admin/?", "dest": "/public/admin/index.html" },
-    { "src": "/(privacy-policy|terms-of-service|affiliate-disclosure|cookie-notice)\\.html", "dest": "/public/$1.html" },
-    { "src": "/(.*)", "dest": "/public/$1" }
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    { "source": "/admin/(.*)", "headers": [ { "key": "Cache-Control", "value": "no-store" } ] },
+    { "source": "/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=300, must-revalidate" } ] }
+  ],
+  "rewrites": [
+    { "source": "/admin", "destination": "/admin/admin.html" }
   ]
 }
