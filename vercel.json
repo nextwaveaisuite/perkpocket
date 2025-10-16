@@ -1,22 +1,26 @@
 {
   "version": 2,
   "name": "perkpocket-platform",
-  "rewrites": [
+  "routes": [
     {
-      "source": "/admin",
-      "destination": "/admin/admin.html"
+      "src": "/admin",
+      "dest": "/admin/admin.html"
     },
     {
-      "source": "/admin/(.*)",
-      "destination": "/admin/$1"
+      "src": "/admin/(.*)",
+      "dest": "/admin/$1"
     },
     {
-      "source": "/",
-      "destination": "/public/index.html"
+      "src": "/(.*\\.(js|json|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot))",
+      "dest": "/public/$1"
     },
     {
-      "source": "/(.*)",
-      "destination": "/public/$1"
+      "src": "/",
+      "dest": "/public/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/public/$1"
     }
   ],
   "headers": [
@@ -47,4 +51,3 @@
     }
   ]
 }
-
