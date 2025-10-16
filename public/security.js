@@ -538,12 +538,19 @@ class PerkPocketSecurity {
 }
 
 // Initialize security when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
+// Initialize security module immediately
+if (typeof window !== 'undefined') {
     window.security = new PerkPocketSecurity();
+}
+
+// Also initialize on DOMContentLoaded for compatibility
+document.addEventListener('DOMContentLoaded', () => {
+    if (!window.security) {
+        window.security = new PerkPocketSecurity();
+    }
 });
 
 // Export for use in other modules
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = PerkPocketSecurity;
 }
-
