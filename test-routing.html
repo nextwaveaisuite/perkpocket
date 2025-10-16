@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PerkPocket Routing Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-card {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-card h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 PerkPocket Routing Test</h1>
+    <p>This page tests the Vercel routing configuration for your PerkPocket deployment.</p>
+
+    <div class="test-card">
+        <h3>Test 1: Main Application <span id="test1-status" class="status pending">Pending</span></h3>
+        <p>Tests if the root URL (/) correctly routes to /public/index.html</p>
+        <button onclick="testRoute('/', 'test1')">Run Test</button>
+        <div id="test1-result" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="test-card">
+        <h3>Test 2: Admin Panel <span id="test2-status" class="status pending">Pending</span></h3>
+        <p>Tests if /admin correctly routes to /admin/admin.html</p>
+        <button onclick="testRoute('/admin', 'test2')">Run Test</button>
+        <div id="test2-result" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="test-card">
+        <h3>Test 3: Static Assets (CSS) <span id="test3-status" class="status pending">Pending</span></h3>
+        <p>Tests if /style.css correctly routes to /public/style.css</p>
+        <button onclick="testRoute('/style.css', 'test3')">Run Test</button>
+        <div id="test3-result" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="test-card">
+        <h3>Test 4: JSON Data Files <span id="test4-status" class="status pending">Pending</span></h3>
+        <p>Tests if /offers.json correctly routes to /public/offers.json</p>
+        <button onclick="testRoute('/offers.json', 'test4')">Run Test</button>
+        <div id="test4-result" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="test-card">
+        <h3>Test 5: Admin JavaScript <span id="test5-status" class="status pending">Pending</span></h3>
+        <p>Tests if /admin/admin.js correctly loads</p>
+        <button onclick="testRoute('/admin/admin.js', 'test5')">Run Test</button>
+        <div id="test5-result" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="test-card">
+        <h3>Run All Tests</h3>
+        <button onclick="runAllTests()">🚀 Run All Tests</button>
+    </div>
+
+    <script>
+        async function testRoute(path, testId) {
+            const statusEl = document.getElementById(`${testId}-status`);
+            const resultEl = document.getElementById(`${testId}-result`);
+            
+            statusEl.textContent = 'Testing...';
+            statusEl.className = 'status pending';
+            resultEl.style.display = 'none';
+            
+            try {
+                const response = await fetch(path);
+                const status = response.status;
+                const contentType = response.headers.get('content-type');
+                
+                resultEl.style.display = 'block';
+                
+                if (status === 200) {
+                    statusEl.textContent = '✅ Passed';
+                    statusEl.className = 'status success';
+                    resultEl.innerHTML = `
+                        <strong>Status:</strong> ${status} OK<br>
+                        <strong>Content-Type:</strong> ${contentType}<br>
+                        <strong>Result:</strong> Route is working correctly!
+                    `;
+                } else {
+                    statusEl.textContent = '❌ Failed';
+                    statusEl.className = 'status error';
+                    resultEl.innerHTML = `
+                        <strong>Status:</strong> ${status}<br>
+                        <strong>Content-Type:</strong> ${contentType}<br>
+                        <strong>Error:</strong> Expected 200, got ${status}
+                    `;
+                }
+            } catch (error) {
+                statusEl.textContent = '❌ Error';
+                statusEl.className = 'status error';
+                resultEl.style.display = 'block';
+                resultEl.innerHTML = `
+                    <strong>Error:</strong> ${error.message}<br>
+                    <strong>Details:</strong> Network error or CORS issue
+                `;
+            }
+        }
+
+        async function runAllTests() {
+            await testRoute('/', 'test1');
+            await new Promise(r => setTimeout(r, 500));
+            await testRoute('/admin', 'test2');
+            await new Promise(r => setTimeout(r, 500));
+            await testRoute('/style.css', 'test3');
+            await new Promise(r => setTimeout(r, 500));
+            await testRoute('/offers.json', 'test4');
+            await new Promise(r => setTimeout(r, 500));
+            await testRoute('/admin/admin.js', 'test5');
+        }
+    </script>
+</body>
+</html>
+

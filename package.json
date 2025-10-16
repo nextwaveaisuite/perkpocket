@@ -1,0 +1,57 @@
+{
+  "name": "perkpocket-platform",
+  "version": "2.0.0",
+  "description": "Complete PerkPocket affiliate marketing platform with admin console",
+  "main": "public/index.html",
+  "scripts": {
+    "start": "npx serve public -p 3000",
+    "dev": "npx serve . -p 3000",
+    "build": "echo 'No build step required for static site'",
+    "deploy": "vercel --prod",
+    "preview": "vercel",
+    "test": "echo 'No tests specified'",
+    "lint": "echo 'No linting configured'",
+    "format": "echo 'No formatting configured'"
+  },
+  "keywords": [
+    "affiliate",
+    "marketing",
+    "perkpocket",
+    "offers",
+    "cashback",
+    "rewards",
+    "admin",
+    "dashboard"
+  ],
+  "author": "PerkPocket Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/perkpocket/platform.git"
+  },
+  "bugs": {
+    "url": "https://github.com/perkpocket/platform/issues"
+  },
+  "homepage": "https://perkpocket.com",
+  "devDependencies": {
+    "serve": "^14.2.1",
+    "vercel": "^32.5.0"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ],
+  "files": [
+    "public/**/*",
+    "admin/**/*",
+    "vercel.json",
+    "README.md"
+  ]
+}
+
