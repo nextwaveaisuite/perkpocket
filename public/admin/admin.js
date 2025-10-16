@@ -1,3 +1,4 @@
+
 // PerkPocket Admin Console
 class PerkPocketAdmin {
     constructor() {
@@ -160,10 +161,16 @@ class PerkPocketAdmin {
         // Clear previous errors
         errorMessage.style.display = 'none';
 
-        // Validate captcha
-        if (!captchaInput || captchaInput.toLowerCase() !== this.currentCaptcha.toLowerCase()) {
+        // Validate captcha - use window.currentCaptcha from inline script
+        const expectedCaptcha = window.currentCaptcha || this.currentCaptcha || '';
+        if (!captchaInput || captchaInput.toLowerCase() !== expectedCaptcha.toLowerCase()) {
             this.showError('Invalid captcha. Please try again.');
-            this.generateCaptcha();
+            // Generate new captcha on failed attempt
+            if (window.generateCaptcha) {
+                window.generateCaptcha();
+            } else {
+                this.generateCaptcha();
+            }
             document.getElementById('captchaInput').value = '';
             return;
         }
@@ -173,7 +180,12 @@ class PerkPocketAdmin {
             const result = window.security.validateAdminAccess(adminKey);
             if (!result.success) {
                 this.showError(result.message);
-                this.generateCaptcha();
+                // Generate new captcha on failed attempt
+                if (window.generateCaptcha) {
+                    window.generateCaptcha();
+                } else {
+                    this.generateCaptcha();
+                }
                 document.getElementById('captchaInput').value = '';
                 return;
             }
@@ -181,7 +193,12 @@ class PerkPocketAdmin {
             // Fallback validation
             if (adminKey !== this.settings.adminKey) {
                 this.showError('Invalid admin key');
-                this.generateCaptcha();
+                // Generate new captcha on failed attempt
+                if (window.generateCaptcha) {
+                    window.generateCaptcha();
+                } else {
+                    this.generateCaptcha();
+                }
                 document.getElementById('captchaInput').value = '';
                 return;
             }
