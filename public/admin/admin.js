@@ -1,4 +1,3 @@
-
 // PerkPocket Admin Console
 class PerkPocketAdmin {
     constructor() {
