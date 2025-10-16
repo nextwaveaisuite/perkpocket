@@ -1044,6 +1044,40 @@
         </section>
     </div>
 
+    <script>
+    // Inline captcha fix - ensures captcha works immediately
+    let currentCaptcha = '';
+    
+    function generateCaptcha() {
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
+        let captcha = '';
+        for (let i = 0; i < 6; i++) {
+            captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        currentCaptcha = captcha;
+        const display = document.getElementById('captchaDisplay');
+        if (display) {
+            display.textContent = captcha;
+        }
+        return captcha;
+    }
+    
+    function refreshCaptcha() {
+        generateCaptcha();
+        const input = document.getElementById('captchaInput');
+        if (input) {
+            input.value = '';
+        }
+    }
+    
+    // Generate captcha as soon as possible
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', generateCaptcha);
+    } else {
+        setTimeout(generateCaptcha, 100);
+    }
+    </script>
+    <script src="../public/security.js"></script>
     <script src="admin.js"></script>
 </body>
 </html>
