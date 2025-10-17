@@ -654,16 +654,7 @@
                         <input type="password" id="adminKey" class="form-control" placeholder="Enter admin key" required>
                     </div>
                     
-                    <div class="captcha-container">
-                        <div class="captcha-display" id="captchaDisplay"></div>
-                        <button type="button" class="captcha-refresh" onclick="refreshCaptcha()" title="Refresh Captcha">🔄</button>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="captchaInput">Enter Captcha</label>
-                        <input type="text" id="captchaInput" class="form-control" placeholder="Enter the captcha above" required>
-                    </div>
-                    
+
                     <button type="submit" class="btn btn-primary">Access Admin Console</button>
                 </form>
             </div>
@@ -1044,63 +1035,6 @@
         </section>
     </div>
 
-    <!-- Inline Captcha Script - Ensures captcha works immediately -->
-    <script>
-        // Global captcha variable - available immediately
-        window.currentCaptcha = '';
-        
-        // Generate captcha function
-        window.generateCaptcha = function() {
-            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
-            let captcha = '';
-            for (let i = 0; i < 6; i++) {
-                captcha += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            window.currentCaptcha = captcha;
-            
-            const display = document.getElementById('captchaDisplay');
-            if (display) {
-                display.textContent = captcha;
-                console.log('Captcha generated:', captcha);
-            }
-            
-            return captcha;
-        };
-        
-        // Refresh captcha function
-        window.refreshCaptcha = function() {
-            window.generateCaptcha();
-            const input = document.getElementById('captchaInput');
-            if (input) {
-                input.value = '';
-            }
-            console.log('Captcha refreshed');
-        };
-        
-        // Generate captcha immediately when script loads
-        (function() {
-            console.log('Initializing captcha...');
-            
-            // Try to generate immediately
-            if (document.getElementById('captchaDisplay')) {
-                window.generateCaptcha();
-            } else {
-                // Wait for DOM if elements not ready
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', function() {
-                        console.log('DOM loaded, generating captcha');
-                        window.generateCaptcha();
-                    });
-                } else {
-                    // DOM already loaded, try again soon
-                    setTimeout(function() {
-                        window.generateCaptcha();
-                    }, 50);
-                }
-            }
-        })();
-    </script>
-    
     <script src="../public/security.js"></script>
     <script src="admin.js"></script>
 </body>
