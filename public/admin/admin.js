@@ -154,51 +154,22 @@ class PerkPocketAdmin {
 
     handleLogin() {
         const adminKey = document.getElementById('adminKey').value;
-        const captchaInput = document.getElementById('captchaInput').value;
         const errorMessage = document.getElementById('errorMessage');
 
         // Clear previous errors
         errorMessage.style.display = 'none';
-
-        // Validate captcha - use window.currentCaptcha from inline script
-        const expectedCaptcha = window.currentCaptcha || this.currentCaptcha || '';
-        if (!captchaInput || captchaInput.toLowerCase() !== expectedCaptcha.toLowerCase()) {
-            this.showError('Invalid captcha. Please try again.');
-            // Generate new captcha on failed attempt
-            if (window.generateCaptcha) {
-                window.generateCaptcha();
-            } else {
-                this.generateCaptcha();
-            }
-            document.getElementById('captchaInput').value = '';
-            return;
-        }
 
         // Validate admin key using security module
         if (window.security) {
             const result = window.security.validateAdminAccess(adminKey);
             if (!result.success) {
                 this.showError(result.message);
-                // Generate new captcha on failed attempt
-                if (window.generateCaptcha) {
-                    window.generateCaptcha();
-                } else {
-                    this.generateCaptcha();
-                }
-                document.getElementById('captchaInput').value = '';
                 return;
             }
         } else {
             // Fallback validation
             if (adminKey !== this.settings.adminKey) {
                 this.showError('Invalid admin key');
-                // Generate new captcha on failed attempt
-                if (window.generateCaptcha) {
-                    window.generateCaptcha();
-                } else {
-                    this.generateCaptcha();
-                }
-                document.getElementById('captchaInput').value = '';
                 return;
             }
         }
