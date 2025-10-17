@@ -21,7 +21,6 @@ class PerkPocketAdmin {
         try {
             await this.loadData();
             this.setupEventListeners();
-            this.generateCaptcha();
             this.checkAuthentication();
             console.log('Admin console initialized');
         } catch (error) {
@@ -800,10 +799,6 @@ class PerkPocketAdmin {
 // Global functions for HTML onclick events
 function showTab(tabName) {
     admin.showTab(tabName);
-}
-
-function refreshCaptcha() {
-    admin.generateCaptcha();
 }
 
 function showAddOfferForm() {
